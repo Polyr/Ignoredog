@@ -1,0 +1,12 @@
+[
+  {
+    "modid": "ignoredog",
+    "name": "Ignoredog",
+    "description": "Tired of Hypixel's Watchdog blocking your sight? Then Ignoredog.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "authorList": [
+      "Synchronous"
+    ]
+  }
+]

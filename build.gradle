@@ -1,0 +1,82 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url = "http://files.minecraftforge.net/maven"
+        }
+    }
+
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.3'
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'java'
+
+version = "1.0.0"
+group = "io.github.synchronousx.ignoredog"
+archivesBaseName = "Ignoredog"
+
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+
+minecraft {
+    version = "1.8.9-11.15.1.1722"
+    runDir = "run"
+    mappings = "stable_20"
+}
+
+configurations {
+    shadow
+    compile.extendsFrom shadow
+}
+
+dependencies {
+    testImplementation('org.junit.jupiter:junit-jupiter-api:5.1.0')
+    testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.1.0')
+    shadow "com.fasterxml.jackson.core:jackson-databind:2.9.5"
+    shadow "com.mashape.unirest:unirest-java:1.4.9"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+shadowJar {
+    archiveName = tasks.jar.archiveName
+    configurations = [project.configurations.shadow]
+    relocate 'com.fasterxml.jackson', 'io.github.synchronousx.shaded.com.fasterxml.jackson'
+    relocate 'com.mashape.unirest', 'io.github.synchronousx.shaded.com.mashape.unirest'
+    relocate 'org.apache', 'io.github.synchronousx.shaded.org.apache'
+    relocate 'org.json', 'io.github.synchronousx.shaded.org.json'
+}
+
+jar {
+    configurations.shadow.each { dep ->
+        from(project.zipTree(dep)) {
+            exclude 'META-INF', 'META-INF/**'
+        }
+    }
+}
+
+jar.dependsOn shadowJar
+jar.enabled = false
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version': project.version, 'mcversion': project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
