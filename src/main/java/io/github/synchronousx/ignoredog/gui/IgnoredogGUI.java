@@ -53,11 +53,12 @@ public class IgnoredogGUI extends GuiScreen {
 
     private void centerButtons() {
         final int x = (this.width - IgnoredogGUI.BUTTON_WIDTH) / 2;
-        int y = (this.height - (this.buttons.size() * (IgnoredogGUI.BUTTON_HEIGHT + IgnoredogGUI.BUTTON_SEPARATION) + IgnoredogGUI.BUTTON_SEPARATION)) / 2;
+        int y = (this.height - (this.buttons.size() * (IgnoredogGUI.BUTTON_HEIGHT + IgnoredogGUI.BUTTON_SEPARATION) - IgnoredogGUI.BUTTON_SEPARATION)) / 2;
 
         for (final GuiButton button : this.buttons) {
             button.xPosition = x;
-            button.yPosition = (y += IgnoredogGUI.BUTTON_HEIGHT + IgnoredogGUI.BUTTON_SEPARATION);
+            button.yPosition = y;
+            y += IgnoredogGUI.BUTTON_HEIGHT + IgnoredogGUI.BUTTON_SEPARATION;
         }
     }
 
