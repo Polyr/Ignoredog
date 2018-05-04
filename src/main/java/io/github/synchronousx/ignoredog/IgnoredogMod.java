@@ -23,10 +23,10 @@ public class IgnoredogMod {
             new PlayerRenderListener(this)
     };
 
+    private final BotUtils botUtils = new BotUtils(this);
+    private final PlayerValidator playerValidator = new PlayerValidator(this);
     private boolean enabled = true;
     private boolean debugMessages = false;
-    private BotUtils botUtils = new BotUtils(this);
-    private PlayerValidator playerValidator = new PlayerValidator(this);
 
     @EventHandler
     public void preInit(final FMLPreInitializationEvent event) {

@@ -9,27 +9,27 @@ public class ToggleButton extends ActionButton<Status> {
     private final String prefix;
     private Status status = Status.DISABLED;
 
-    public ToggleButton(final int id, final int xPos, final int yPos, final String prefix) {
-        super(id, xPos, yPos, null);
+    public ToggleButton(final int id, final int xPos, final int yPos, final Consumer<Status> action, final String prefix) {
+        super(id, xPos, yPos, null, action);
         this.prefix = prefix;
         this.updateDisplayString();
     }
 
-    public ToggleButton(final int id, final int xPos, final int yPos, final String prefix, final Status status) {
-        super(id, xPos, yPos, null);
+    public ToggleButton(final int id, final int xPos, final int yPos, final Consumer<Status> action, final String prefix, final Status status) {
+        super(id, xPos, yPos, null, action);
         this.prefix = prefix;
         this.status = status;
         this.updateDisplayString();
     }
 
-    public ToggleButton(final int id, final int xPos, final int yPos, final int width, final int height, final String prefix) {
-        super(id, xPos, yPos, width, height, null);
+    public ToggleButton(final int id, final int xPos, final int yPos, final int width, final int height, final Consumer<Status> action, final String prefix) {
+        super(id, xPos, yPos, width, height, null, action);
         this.prefix = prefix;
         this.updateDisplayString();
     }
 
-    public ToggleButton(final int id, final int xPos, final int yPos, final int width, final int height, final String prefix, final Status status) {
-        super(id, xPos, yPos, width, height, null);
+    public ToggleButton(final int id, final int xPos, final int yPos, final int width, final int height, final Consumer<Status> action, final String prefix, final Status status) {
+        super(id, xPos, yPos, width, height, null, action);
         this.prefix = prefix;
         this.status = status;
         this.updateDisplayString();
@@ -52,7 +52,7 @@ public class ToggleButton extends ActionButton<Status> {
     }
 
     @Override
-    public void onPress(final Consumer<Status> action) {
+    public void onPress() {
         switch (this.status) {
             case ENABLED:
                 this.status = Status.DISABLED;
@@ -62,7 +62,7 @@ public class ToggleButton extends ActionButton<Status> {
         }
 
         this.updateDisplayString();
-        action.accept(this.status);
+        this.action.accept(this.status);
     }
 
     public enum Status {
