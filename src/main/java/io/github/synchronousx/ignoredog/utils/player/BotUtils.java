@@ -19,7 +19,7 @@ public class BotUtils {
             "minecraft:textures/entity/alex.png"
     };
 
-    private final Set<PlayerId> bots = ConcurrentHashMap.newKeySet();
+    private final Set<PlayerId> potentialBots = ConcurrentHashMap.newKeySet();
     private final IgnoredogMod mod;
 
     public BotUtils(final IgnoredogMod mod) {
@@ -27,21 +27,21 @@ public class BotUtils {
     }
 
     public void cleanBots() {
-        this.bots.stream().filter(playerId -> Optional.ofNullable(this.mod.getPlayerValidator().getPlayerCache().get(playerId)).orElse(AccountType.UNKNOWN) == AccountType.NONEXISTENT).forEach(playerId -> {
-            this.bots.remove(playerId);
+        this.potentialBots.stream().filter(playerId -> Optional.ofNullable(this.mod.getPlayerValidator().getPlayerCache().get(playerId)).orElse(AccountType.UNKNOWN) == AccountType.NONEXISTENT).forEach(playerId -> {
+            this.potentialBots.remove(playerId);
             if (this.mod.sendDebugMessages()) {
                 Logger.log(Logger.translateAmpersandFormatting("&d " + playerId.getName().orElse("") + "&r is not a premium account, so they have been &c&lremoved&r as a potential bot."));
             }
         });
 
-        this.bots.stream().filter(PlayerUtils::isPlayerVisibleOnTab).forEach(playerId -> {
-            this.bots.remove(playerId);
+        this.potentialBots.stream().filter(PlayerUtils::isPlayerVisibleOnTab).forEach(playerId -> {
+            this.potentialBots.remove(playerId);
             if (this.mod.sendDebugMessages()) {
                 Logger.log(Logger.translateAmpersandFormatting("&d " + playerId.getName().orElse("") + "&r is visible on Tab, so they have been &c&lremoved&r as a potential bot."));
             }
         });
 
-        this.bots.stream().filter(playerId -> {
+        this.potentialBots.stream().filter(playerId -> {
             final WorldClient world = Minecraft.getMinecraft().theWorld;
             if (Optional.ofNullable(world).isPresent()) {
                 final EntityPlayer player = world.getPlayerEntityByName(playerId.getName().orElse(""));
@@ -50,14 +50,14 @@ public class BotUtils {
 
             return false;
         }).forEach(playerId -> {
-            this.bots.remove(playerId);
+            this.potentialBots.remove(playerId);
             if (this.mod.sendDebugMessages()) {
                 Logger.log(Logger.translateAmpersandFormatting("&d " + playerId.getName().orElse("") + "&r does not have a bot skin, so they have been &c&lremoved&r as a potential bot."));
             }
         });
     }
 
-    public Set<PlayerId> getBots() {
-        return this.bots;
+    public Set<PlayerId> getPotentialBots() {
+        return this.potentialBots;
     }
 }

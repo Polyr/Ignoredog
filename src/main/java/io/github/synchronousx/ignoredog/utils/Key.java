@@ -7,8 +7,7 @@ import org.lwjgl.input.Keyboard;
 import java.util.Arrays;
 
 public enum Key {
-    OPEN_GUI("key.ignoredog.openGui", Keyboard.KEY_I, Key.CATEGORY),
-    LIST_CACHE("key.ignoredog.listCache", Keyboard.KEY_P, Key.CATEGORY);
+    OPEN_GUI("key.ignoredog.openGui", Keyboard.KEY_I, Key.CATEGORY);
 
     public static final String CATEGORY = "key.categories.ignoredog";
     private final KeyBinding keyBinding;

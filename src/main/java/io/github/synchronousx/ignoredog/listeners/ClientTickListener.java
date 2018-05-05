@@ -14,7 +14,7 @@ public class ClientTickListener {
     @SubscribeEvent
     public void onClientTick(final ClientTickEvent event) {
         if (this.mod.isEnabled()) {
-            this.mod.getPlayerValidator().cachePlayerIds(this.mod.getBotUtils().getBots());
+            this.mod.getPlayerValidator().cachePlayerIds(this.mod.getBotUtils().getPotentialBots());
             this.mod.getBotUtils().cleanBots();
         }
     }
