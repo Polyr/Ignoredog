@@ -8,13 +8,12 @@ import io.github.synchronousx.ignoredog.utils.Logger;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class IgnoredogGUI extends GuiScreen {
+    public static final int WHITE = 16777215;
+
     private final IgnoredogMod mod;
 
     private int buttonWidth;
@@ -116,6 +115,11 @@ public class IgnoredogGUI extends GuiScreen {
         this.drawDefaultBackground();
         this.potentialBotsNameList.drawScreen(mouseX, mouseY, partialTicks);
         this.playerCacheNameList.drawScreen(mouseX, mouseY, partialTicks);
+
+        if (!this.buttonList.isEmpty()) {
+            this.drawCenteredString(this.fontRendererObj, "Request Cooldown: " + (Optional.ofNullable(this.mod.getRequestCooldown()).isPresent() ? this.mod.getRequestCooldown().getRemainingMillis() / 1000L : 0L) + "s", this.width / 2, this.buttonList.get(1).yPosition + this.buttonHeight + this.buttonYSeparation, IgnoredogGUI.WHITE);
+        }
+
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

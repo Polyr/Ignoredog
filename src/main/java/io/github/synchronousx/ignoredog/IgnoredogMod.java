@@ -6,6 +6,7 @@ import io.github.synchronousx.ignoredog.listeners.PlayerRenderListener;
 import io.github.synchronousx.ignoredog.utils.Key;
 import io.github.synchronousx.ignoredog.utils.player.BotUtils;
 import io.github.synchronousx.ignoredog.utils.player.PlayerValidator;
+import io.github.synchronousx.ignoredog.utils.request.RequestCooldown;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -25,6 +26,7 @@ public class IgnoredogMod {
 
     private final BotUtils botUtils = new BotUtils(this);
     private final PlayerValidator playerValidator = new PlayerValidator(this);
+    private RequestCooldown requestCooldown;
     private boolean enabled = true;
     private boolean debugMessages = false;
 
@@ -36,6 +38,22 @@ public class IgnoredogMod {
     @EventHandler
     public void init(final FMLInitializationEvent event) {
         Arrays.stream(this.listeners).forEach(MinecraftForge.EVENT_BUS::register);
+    }
+
+    public BotUtils getBotUtils() {
+        return this.botUtils;
+    }
+
+    public PlayerValidator getPlayerValidator() {
+        return this.playerValidator;
+    }
+
+    public RequestCooldown getRequestCooldown() {
+        return this.requestCooldown;
+    }
+
+    public void beginRequestCooldown() {
+        this.requestCooldown = new RequestCooldown();
     }
 
     public boolean isEnabled() {
@@ -52,13 +70,5 @@ public class IgnoredogMod {
 
     public void setDebugMessages(final boolean debugMessages) {
         this.debugMessages = debugMessages;
-    }
-
-    public BotUtils getBotUtils() {
-        return this.botUtils;
-    }
-
-    public PlayerValidator getPlayerValidator() {
-        return this.playerValidator;
     }
 }

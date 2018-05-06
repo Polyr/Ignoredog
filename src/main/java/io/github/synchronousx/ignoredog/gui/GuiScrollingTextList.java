@@ -8,7 +8,6 @@ import net.minecraftforge.fml.client.GuiScrollingList;
 import java.util.List;
 
 public class GuiScrollingTextList extends GuiScrollingList {
-    private static final int WHITE = 16777215;
     private final GuiScreen parent;
     private final int textYIncrement;
     private final List<List<String>> textList;
@@ -42,7 +41,7 @@ public class GuiScrollingTextList extends GuiScrollingList {
     protected void drawSlot(int slotIdx, int entryRight, int slotTop, int slotBuffer, Tessellator tess) {
         int y = slotTop;
         for (final String text : this.textList.get(slotIdx)) {
-            this.parent.drawCenteredString(this.parent.mc.fontRendererObj, text, this.left + this.listWidth / 2, y, GuiScrollingTextList.WHITE);
+            this.parent.drawCenteredString(this.parent.mc.fontRendererObj, text, this.left + this.listWidth / 2, y, IgnoredogGUI.WHITE);
             y += this.textYIncrement;
         }
     }

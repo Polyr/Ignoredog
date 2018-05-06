@@ -38,6 +38,10 @@ public class PlayerValidator {
     }
 
     public void cachePlayerIds(final Collection<PlayerId> playerIds) {
+        if (Optional.ofNullable(this.mod.getRequestCooldown()).isPresent() && !this.mod.getRequestCooldown().hasEnded()) {
+            return;
+        }
+
         final CompletableFuture<Void> responseProcessingBlocker = new CompletableFuture<>();
         final CompletableFuture<Boolean> postResponseProcessingBlocker = new CompletableFuture<>();
         final SimpleImmutableEntry<Set<PlayerId>, List<Future<HttpResponse<JsonNode>>>> requestResponsePair = this.requestPlayerIds(playerIds, new Callback<JsonNode>() {
@@ -61,14 +65,18 @@ public class PlayerValidator {
                 } catch (final IOException ignored) {
                 }
 
-                Optional.ofNullable(playerIdArray).ifPresent(presentPlayerIdArray -> {
-                    Arrays.stream(presentPlayerIdArray).forEach(playerId -> playerCache.put(playerId, AccountType.EXISTENT));
+                boolean completeValue = false;
+                if (Optional.ofNullable(playerIdArray).isPresent()) {
+                    Arrays.stream(playerIdArray).forEach(playerId -> playerCache.put(playerId, AccountType.EXISTENT));
+                    completeValue = true;
+                }
 
-                    postResponseProcessingBlocker.complete(true);
-                    return;
-                });
+                if (Optional.ofNullable(errorResponse).isPresent()) {
+                    mod.beginRequestCooldown();
+                    completeValue = false;
+                }
 
-                postResponseProcessingBlocker.complete(false);
+                postResponseProcessingBlocker.complete(completeValue);
             }
 
             @Override
