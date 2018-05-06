@@ -28,7 +28,7 @@ public class PlayerRenderListener {
             if (PlayerUtils.doesPlayerHaveBotSkin(otherPlayer) && !PlayerUtils.isPlayerVisibleOnTab(playerId) && !this.mod.getBotUtils().getPotentialBots().contains(playerId) && Optional.ofNullable(this.mod.getPlayerValidator().getPlayerCache().get(playerId)).orElse(PlayerUtils.AccountType.UNKNOWN) != PlayerUtils.AccountType.NONEXISTENT) {
                 this.mod.getBotUtils().getPotentialBots().add(playerId);
                 if (this.mod.sendDebugMessages()) {
-                    Logger.log(Logger.translateAmpersandFormatting("&d " + playerId.getName().orElse("") + "&r has a bot skin and is not visible on Tab, so they have been &a&ladded&r as a potential bot."));
+                    Logger.log(Logger.translateAmpersandFormatting("&d" + playerId.getName().orElse("") + "&r has a bot skin and is not visible on Tab, so they have been &a&ladded&r as a potential bot."));
                 }
             }
 

@@ -30,14 +30,14 @@ public class BotUtils {
         this.potentialBots.stream().filter(playerId -> Optional.ofNullable(this.mod.getPlayerValidator().getPlayerCache().get(playerId)).orElse(AccountType.UNKNOWN) == AccountType.NONEXISTENT).forEach(playerId -> {
             this.potentialBots.remove(playerId);
             if (this.mod.sendDebugMessages()) {
-                Logger.log(Logger.translateAmpersandFormatting("&d " + playerId.getName().orElse("") + "&r is not a premium account, so they have been &c&lremoved&r as a potential bot."));
+                Logger.log(Logger.translateAmpersandFormatting("&d" + playerId.getName().orElse("") + "&r is not a premium account, so they have been &c&lremoved&r as a potential bot."));
             }
         });
 
         this.potentialBots.stream().filter(PlayerUtils::isPlayerVisibleOnTab).forEach(playerId -> {
             this.potentialBots.remove(playerId);
             if (this.mod.sendDebugMessages()) {
-                Logger.log(Logger.translateAmpersandFormatting("&d " + playerId.getName().orElse("") + "&r is visible on Tab, so they have been &c&lremoved&r as a potential bot."));
+                Logger.log(Logger.translateAmpersandFormatting("&d" + playerId.getName().orElse("") + "&r is visible on Tab, so they have been &c&lremoved&r as a potential bot."));
             }
         });
 
