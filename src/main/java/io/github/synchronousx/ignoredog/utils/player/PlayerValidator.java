@@ -56,10 +56,10 @@ public class PlayerValidator {
                 ErrorResponse errorResponse = null;
 
                 try {
-                    playerIdArray = RequestUtils.JACKSON_OBJECT_MAPPER.readValue(response.getRawBody(), PlayerId[].class);
+                    playerIdArray = RequestUtils.JACKSON_OBJECT_MAPPER.readValue(response.getBody().toString(), PlayerId[].class);
                 } catch (final MismatchedInputException exception) {
                     try {
-                        errorResponse = RequestUtils.JACKSON_OBJECT_MAPPER.readValue(response.getRawBody(), ErrorResponse.class);
+                        errorResponse = RequestUtils.JACKSON_OBJECT_MAPPER.readValue(response.getBody().toString(), ErrorResponse.class);
                     } catch (final IOException ignored) {
                     }
                 } catch (final IOException ignored) {
